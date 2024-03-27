@@ -24,11 +24,12 @@
 
   <div class="card-panel hide" id="logged-in">
     <div id="confirm">
-      <p>Do you wish to store this credential?</p>
+      <p>Do you wish to store these credentials?</p>
 
-      <p><strong>type:</strong> <span id="credentialType"></span></p>
-
-      <p><strong>issuer:</strong> <span id="credentialIssuer"></span></p>
+      <div class="credential">
+        <p><strong>type:</strong> <span class="credentialType"></span></p>
+        <p><strong>issuer:</strong> <span class="credentialIssuer"></span></p>
+      </div>
 
       <a class="waves-effect waves-light btn" id="confirmButton">Confirm</a>
       <a class="waves-effect waves-light btn" id="cancelButton">Cancel</a>
@@ -87,11 +88,18 @@
 
     // Display the credential details, for confirmation
     const vp = credential.data;
-    const vc = Array.isArray(vp.verifiableCredential)
-      ? vp.verifiableCredential[0]
-      : vp.verifiableCredential;
-    document.getElementById('credentialType').innerHTML = getCredentialType(vc);
-    document.getElementById('credentialIssuer').innerHTML = vc.issuer.id ?? vc.issuer;
+    const vcs = vp.verifiableCredential;
+    if (!Array.isArray(vcs)) {
+      vcs = [vcs]
+    }
+    const types = []
+    const issuers = []
+    for (const vc of vcs) {
+      types.push(getCredentialType(vc))
+      issuers.push(vc.issuer.id ?? vc.issuer)
+    }
+    document.getElementById('credentialType').innerHTML = types.join(', ');
+    document.getElementById('credentialIssuer').innerHTML = issuers.join(', ');
 
     // Set up the event handlers for the buttons
     document.getElementById('cancelButton').addEventListener('click', () => {

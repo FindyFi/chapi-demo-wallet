@@ -77,9 +77,14 @@ function clearWalletStorage() {
 
 function storeInWallet(verifiablePresentation) {
   const walletContents = loadWalletContents() || {};
-  const id = getCredentialId(verifiablePresentation);
-  walletContents[id] = verifiablePresentation;
-  localStorage.setItem('walletContents', JSON.stringify(walletContents));
+  const vcs = vp.verifiableCredential
+  if (! Array.isArray(vcs)) {
+    vcs = [vcs]
+  }
+  for (const vc of vcs) {
+    walletContents[vc.id] = verifiablePresentation;
+    localStorage.setItem('walletContents', JSON.stringify(walletContents));
+  }
 }
 
 function clearWalletDisplay() {
@@ -121,12 +126,14 @@ function addToWalletDisplay({text, vc, button}) {
   }
 }
 
+/*
 function getCredentialId(vp) {
   const vc = Array.isArray(vp.verifiableCredential)
     ? vp.verifiableCredential[0]
     : vp.verifiableCredential;
   return vc.id;
 }
+*/
 
 function getCredentialType(vc) {
   if(!vc) {
