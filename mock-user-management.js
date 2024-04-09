@@ -43,15 +43,13 @@ function refreshUserArea({shareButton} = {}) {
   for(const id in walletContents) {
     const vp = walletContents[id];
     // TODO: Add support for multi-credential VPs
-    let issuer = vc.issuer
-    console.log(issuer)
-    if (issuer.name) { issuer = issuer.name }
-    else if (issuer.id) { issuer = issuer.id }
-    console.log(issuer)
     const vc = Array.isArray(vp.verifiableCredential)
       ? vp.verifiableCredential[0]
       : vp.verifiableCredential;
-    addToWalletDisplay({
+      let issuer = vc.issuer
+      if (issuer.name) { issuer = issuer.name }
+      else if (issuer.id) { issuer = issuer.id }
+      addToWalletDisplay({
       text: `${getCredentialType(vc)} from ${issuer}`,
       vc,
       button: shareButton
