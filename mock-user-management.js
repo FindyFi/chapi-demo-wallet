@@ -46,10 +46,10 @@ function refreshUserArea({shareButton} = {}) {
     const vc = Array.isArray(vp.verifiableCredential)
       ? vp.verifiableCredential[0]
       : vp.verifiableCredential;
-      let issuer = vc.issuer
-      if (issuer.name) { issuer = issuer.name }
-      else if (issuer.id) { issuer = issuer.id }
-      addToWalletDisplay({
+    let issuer = vc.issuer
+    if (issuer.name) { issuer = issuer.name }
+    else if (issuer.id) { issuer = issuer.id }
+    addToWalletDisplay({
       text: `${getCredentialType(vc)} from ${issuer}`,
       vc,
       button: shareButton
