@@ -77,7 +77,7 @@ function clearWalletStorage() {
 
 function storeInWallet(verifiablePresentation) {
   const walletContents = loadWalletContents() || {};
-  const vcs = vp.verifiableCredential
+  const vcs = verifiablePresentation.verifiableCredential
   if (! Array.isArray(vcs)) {
     vcs = [vcs]
   }
